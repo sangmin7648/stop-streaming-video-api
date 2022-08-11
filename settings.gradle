@@ -1,0 +1,3 @@
+rootProject.name = 'stop-streaming-video-api'
+
+include 'module-watch-verifier'
