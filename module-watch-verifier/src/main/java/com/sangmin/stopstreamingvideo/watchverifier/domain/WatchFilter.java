@@ -1,8 +1,10 @@
 package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @ToString
+@EqualsAndHashCode
 class WatchFilter {
 
     private final Provider provider;

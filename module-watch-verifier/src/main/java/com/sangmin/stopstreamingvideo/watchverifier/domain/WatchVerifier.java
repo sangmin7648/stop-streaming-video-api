@@ -20,6 +20,14 @@ public class WatchVerifier {
         this.watchVerifierItems = initVerifiers();
     }
 
+    public UUID id() {
+        return id;
+    }
+
+    public UUID userId() {
+        return userId;
+    }
+
     private List<WatchVerifierItem> initVerifiers() {
         return Arrays.stream(VerifierMode.values())
                 .map(WatchVerifierItem::new)
