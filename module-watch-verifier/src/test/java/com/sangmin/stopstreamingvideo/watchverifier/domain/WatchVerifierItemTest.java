@@ -1,13 +1,14 @@
-package com.sangmin.watchverifier.domain.model;
+package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
-import com.sangmin.watchverifier.common.Exceptions;
+import com.sangmin.stopstreamingvideo.common.Exceptions;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WatchVerifierItemTest {
 
@@ -18,7 +19,7 @@ class WatchVerifierItemTest {
 
         sut.addFilter(filter);
 
-        assertThat(WatchVerifierTestHelper.getWatchFilters(sut)).hasSize(1);
+        Assertions.assertThat(WatchVerifierTestHelper.getWatchFilters(sut)).hasSize(1);
     }
 
     @Test
@@ -45,8 +46,8 @@ class WatchVerifierItemTest {
         sut.removeFilter(filter1);
 
         // then
-        assertThat(WatchVerifierTestHelper.getWatchFilters(sut)).hasSize(1);
-        assertThat(WatchVerifierTestHelper.getWatchFilters(sut)).contains(filter2);
+        Assertions.assertThat(WatchVerifierTestHelper.getWatchFilters(sut)).hasSize(1);
+        Assertions.assertThat(WatchVerifierTestHelper.getWatchFilters(sut)).contains(filter2);
     }
 
     @Test

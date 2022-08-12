@@ -1,4 +1,4 @@
-package com.sangmin.watchverifier.domain.model;
+package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
 enum VerifierMode {
     BLACKLIST,  // can watch only if no filters match

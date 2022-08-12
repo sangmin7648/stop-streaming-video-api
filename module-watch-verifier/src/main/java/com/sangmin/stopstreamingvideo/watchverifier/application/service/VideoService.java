@@ -1,9 +1,9 @@
-package com.sangmin.watchverifier.domain.service;
+package com.sangmin.stopstreamingvideo.watchverifier.application.service;
 
-import com.sangmin.watchverifier.common.Exceptions;
-import com.sangmin.watchverifier.application.port.outbound.FindVideoAgent;
-import com.sangmin.watchverifier.domain.model.Provider;
-import com.sangmin.watchverifier.domain.model.Video;
+import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.FindVideoAgent;
+import com.sangmin.stopstreamingvideo.common.Exceptions;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.Video;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

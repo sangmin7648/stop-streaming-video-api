@@ -1,10 +1,9 @@
-package com.sangmin.watchverifier.domain.model;
+package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WatchFilterTest {
 
@@ -15,7 +14,7 @@ class WatchFilterTest {
 
         var matches = sut.matches(video);
 
-        assertTrue(matches);
+        Assertions.assertTrue(matches);
     }
 
     @Test
@@ -25,7 +24,7 @@ class WatchFilterTest {
 
         var matches = sut.matches(video);
 
-        assertFalse(matches);
+        Assertions.assertFalse(matches);
     }
 
 }

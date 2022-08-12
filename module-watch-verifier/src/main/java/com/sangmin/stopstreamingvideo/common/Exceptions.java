@@ -1,6 +1,6 @@
-package com.sangmin.watchverifier.common;
+package com.sangmin.stopstreamingvideo.common;
 
-import com.sangmin.watchverifier.domain.model.Provider;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
 import lombok.Getter;
 
 import java.util.UUID;

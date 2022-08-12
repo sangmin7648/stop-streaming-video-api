@@ -1,6 +1,6 @@
-package com.sangmin.watchverifier.domain.model;
+package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
-import com.sangmin.watchverifier.common.Exceptions;
+import com.sangmin.stopstreamingvideo.common.Exceptions;
 import lombok.NonNull;
 
 import java.util.Arrays;

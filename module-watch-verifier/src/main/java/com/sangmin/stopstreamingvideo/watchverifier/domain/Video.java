@@ -1,4 +1,4 @@
-package com.sangmin.watchverifier.domain.model;
+package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
 import java.util.List;
 
