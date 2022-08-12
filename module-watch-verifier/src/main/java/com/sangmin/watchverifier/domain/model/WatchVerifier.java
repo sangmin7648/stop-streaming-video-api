@@ -1,50 +1,52 @@
 package com.sangmin.watchverifier.domain.model;
 
 import com.sangmin.watchverifier.common.Exceptions;
+import lombok.NonNull;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.function.Supplier;
 
-class WatchVerifier {
+public class WatchVerifier {
 
     private final UUID id;
-    private final Mode mode;
-    private final Set<WatchFilter> watchFilters;
+    private final UUID userId;
+    private final List<WatchVerifierItem> watchVerifierItems;
 
-    enum Mode {
-        BLACKLIST,  // can watch only if none filters match
-        WHITELIST   // can watch only if all filters match
-    }
-
-    public WatchVerifier(Mode mode) {
+    public WatchVerifier(@NonNull UUID userId) {
         this.id = UUID.randomUUID();
-        this.mode = mode;
-        this.watchFilters = new HashSet<>();
+        this.userId = userId;
+        this.watchVerifierItems = initVerifiers();
     }
 
-    public boolean canWatch(Video video) {
-        return switch (this.mode) {
-            case BLACKLIST -> watchFilters
-                    .stream()
-                    .noneMatch(wf -> wf.matches(video));
-            case WHITELIST -> watchFilters
-                    .stream()
-                    .allMatch(wf -> wf.matches(video));
-        };
+    private List<WatchVerifierItem> initVerifiers() {
+        return Arrays.stream(VerifierMode.values())
+                .map(WatchVerifierItem::new)
+                .toList();
     }
 
-    public void addFilter(WatchFilter newFilter) {
-        if (watchFilters.size() >= 1000) {
-            throw new Exceptions.FilterMaxCapacityReached(
-                    "new filter cannot be added " + newFilter.toString());
-        }
-
-        watchFilters.add(newFilter);
+    public boolean canWatch(@NonNull Video video, @NonNull VerifierMode mode) {
+        return watchVerifierItems.stream()
+                .filter(v -> v.supports(mode))
+                .findAny()
+                .map(v -> v.canWatch(video))
+                .orElse(false);
     }
 
-    public void removeFilter(WatchFilter filter) {
-        watchFilters.remove(filter);
+    public void addFilter(@NonNull VerifierMode mode, @NonNull Provider provider, @NonNull Property property) {
+        WatchVerifierItem watchVerifierItem = watchVerifierItems.stream()
+                .filter(v -> v.supports(mode))
+                .findAny()
+                .orElseThrow(verifierNotFound(mode));
+
+        var newFilter = new WatchFilter(provider, property);
+        watchVerifierItem.addFilter(newFilter);
+    }
+
+    private Supplier<Exceptions.VerifierNotFound> verifierNotFound(VerifierMode mode) {
+        String message = "verifier for mode " + mode + " not found";
+        return () -> new Exceptions.VerifierNotFound(message, this.id, this.userId);
     }
 
 }
