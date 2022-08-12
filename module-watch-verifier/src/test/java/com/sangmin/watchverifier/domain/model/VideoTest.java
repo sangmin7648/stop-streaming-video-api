@@ -1,7 +1,5 @@
 package com.sangmin.watchverifier.domain.model;
 
-import com.sangmin.watchverifier.domain.model.property.Category;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -14,7 +12,7 @@ class VideoTest {
     void can_verify_if_video_matches_given_attributes() {
         var videoId = "test";
         var provider = Provider.YOUTUBE;
-        List<Property> properties = List.of(new Category("여행"), new Category("게임"));
+        List<Property> properties = List.of(new Property.Category("여행"), new Property.Category("게임"));
         Video sut = new Video(videoId, provider, properties);
 
         boolean matches = sut.matches(provider, properties.get(0));
@@ -26,10 +24,10 @@ class VideoTest {
     void can_verify_if_video_not_matches_given_attributes() {
         var videoId = "test";
         var provider = Provider.YOUTUBE;
-        List<Property> properties = List.of(new Category("여행"), new Category("게임"));
+        List<Property> properties = List.of(new Property.Category("여행"), new Property.Category("게임"));
         Video sut = new Video(videoId, provider, properties);
 
-        boolean matches = sut.matches(provider, new Category("문학"));
+        boolean matches = sut.matches(provider, new Property.Category("문학"));
 
         assertFalse(matches);
     }

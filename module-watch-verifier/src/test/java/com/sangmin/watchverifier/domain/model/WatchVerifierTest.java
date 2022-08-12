@@ -1,6 +1,5 @@
 package com.sangmin.watchverifier.domain.model;
 
-import com.sangmin.watchverifier.domain.model.property.Category;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -32,7 +31,7 @@ class WatchVerifierTest {
         // given
         var mode = VerifierMode.WHITELIST;
         var provider = Provider.YOUTUBE;
-        var property = new Category("test");
+        var property = new Property.Category("test");
         var video = new Video("test-id", provider, List.of(property));
 
         var sut = new WatchVerifier(UUID.randomUUID());
@@ -49,10 +48,10 @@ class WatchVerifierTest {
     void can_watch_video_in_blacklist_mode_if_filter_not_exists() {
         // given
         var mode = VerifierMode.BLACKLIST;
-        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Category("test")));
+        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Property.Category("test")));
 
         var sut = new WatchVerifier(UUID.randomUUID());
-        sut.addFilter(mode, Provider.YOUTUBE, new Category("blacklist"));
+        sut.addFilter(mode, Provider.YOUTUBE, new Property.Category("blacklist"));
 
         // when
         boolean canWatch = sut.canWatch(video, mode);
@@ -65,10 +64,10 @@ class WatchVerifierTest {
     void cannot_watch_video_in_whitelist_mode_if_filter_not_exists() {
         // given
         var mode = VerifierMode.WHITELIST;
-        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Category("test")));
+        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Property.Category("test")));
 
         var sut = new WatchVerifier(UUID.randomUUID());
-        sut.addFilter(mode, Provider.YOUTUBE, new Category("blacklist"));
+        sut.addFilter(mode, Provider.YOUTUBE, new Property.Category("blacklist"));
 
         // when
         boolean canWatch = sut.canWatch(video, mode);
@@ -82,7 +81,7 @@ class WatchVerifierTest {
         // given
         var mode = VerifierMode.BLACKLIST;
         var provider = Provider.YOUTUBE;
-        var property = new Category("test");
+        var property = new Property.Category("test");
         var video = new Video("test-id", provider, List.of(property));
 
         var sut = new WatchVerifier(UUID.randomUUID());
@@ -99,7 +98,7 @@ class WatchVerifierTest {
     @EnumSource(VerifierMode.class)
     void add_filter_to_specific_mode(VerifierMode mode) {
         var provider = Provider.YOUTUBE;
-        var property = new Category("test");
+        var property = new Property.Category("test");
 
         var sut = new WatchVerifier(UUID.randomUUID());
         sut.addFilter(mode, provider, property);

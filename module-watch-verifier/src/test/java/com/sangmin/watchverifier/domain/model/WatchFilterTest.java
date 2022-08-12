@@ -1,7 +1,5 @@
 package com.sangmin.watchverifier.domain.model;
 
-import com.sangmin.watchverifier.domain.model.property.Category;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,8 +10,8 @@ class WatchFilterTest {
 
     @Test
     void can_determine_video_matches_filter() {
-        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Category("test")));
-        var sut = new WatchFilter(Provider.YOUTUBE, new Category("test"));
+        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Property.Category("test")));
+        var sut = new WatchFilter(Provider.YOUTUBE, new Property.Category("test"));
 
         var matches = sut.matches(video);
 
@@ -22,8 +20,8 @@ class WatchFilterTest {
 
     @Test
     void can_determine_video_not_matches_filter() {
-        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Category("other-category")));
-        var sut = new WatchFilter(Provider.YOUTUBE, new Category("test"));
+        var video = new Video("test-id", Provider.YOUTUBE, List.of(new Property.Category("other-category")));
+        var sut = new WatchFilter(Provider.YOUTUBE, new Property.Category("test"));
 
         var matches = sut.matches(video);
 
