@@ -1,6 +1,6 @@
 package com.sangmin.watchverifier.domain.model;
 
-enum Provider {
+public enum Provider {
 
     YOUTUBE,
 

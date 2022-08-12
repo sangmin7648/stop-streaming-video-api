@@ -2,16 +2,16 @@ package com.sangmin.watchverifier.domain.model;
 
 import java.util.List;
 
-class Video {
-
-    private final String id;
-    private final Provider provider;
-    private final List<Property> properties;
+public record Video(
+        String id,
+        Provider provider,
+        List<Property> properties
+) {
 
     public Video(String id, Provider provider, List<Property> properties) {
         this.id = id;
         this.provider = provider;
-        this.properties = properties;
+        this.properties = List.copyOf(properties);
     }
 
     public boolean matches(Provider provider, Property property) {

@@ -1,5 +1,6 @@
 package com.sangmin.watchverifier.common;
 
+import com.sangmin.watchverifier.domain.model.Provider;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -32,4 +33,27 @@ public class Exceptions {
 
     }
 
+    @Getter
+    public static class VideoNotFound extends RuntimeException {
+
+        private final String videoId;
+
+        public VideoNotFound(String message, String videoId) {
+            super(message);
+            this.videoId = videoId;
+        }
+
+    }
+
+    @Getter
+    public static class ProviderVideoAgentNotFound extends RuntimeException {
+
+        private final Provider provider;
+
+        public ProviderVideoAgentNotFound(String message, Provider provider) {
+            super(message);
+            this.provider = provider;
+        }
+
+    }
 }
