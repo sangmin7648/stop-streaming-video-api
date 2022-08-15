@@ -6,6 +6,8 @@ import com.sangmin.stopstreamingvideo.watchverifier.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -29,7 +31,7 @@ class RegisterWatchVerfierUseCaseImplTest {
 
         UUID verifierId = sut.registerWatchVerifier(newUserId);
 
-        WatchVerifier watchVerifier = repository.findByUserId(newUserId).orElseThrow();
+        WatchVerifier watchVerifier = repository.getByUserId(newUserId);
         assertEquals(newUserId, watchVerifier.userId());
     }
 
@@ -54,7 +56,7 @@ class RegisterWatchVerfierUseCaseImplTest {
         sut.addWatchFilter(command);
 
         // then
-        WatchVerifier watchVerifier = repository.findByUserId(userId).orElseThrow();
+        WatchVerifier watchVerifier = repository.getByUserId(userId);
         var expectedFilter = WatchVerifierTestHelper.createWatchFilter(provider, property);
         assertTrue(WatchVerifierTestHelper.getWatchFilters(mode, watchVerifier).contains(expectedFilter));
     }
@@ -65,4 +67,28 @@ class RegisterWatchVerfierUseCaseImplTest {
                 .isInstanceOf(NullPointerException.class);
     }
 
+    static class DummyWatchVerifierRepository implements WatchVerifierRepository {
+
+        private final Map<UUID, WatchVerifier> watchVerifierMap = new HashMap<>();
+
+        @Override
+        public WatchVerifier getByUserId(UUID userId) {
+            return watchVerifierMap.values().stream()
+                    .filter(wv -> wv.userId().equals(userId))
+                    .findAny()
+                    .orElseThrow();
+        }
+
+        @Override
+        public WatchVerifier save(WatchVerifier watchVerifier) {
+            watchVerifierMap.put(watchVerifier.id(), watchVerifier);
+            return watchVerifier;
+        }
+
+        @Override
+        public void delete(WatchVerifier watchVerifier) {
+            watchVerifierMap.remove(watchVerifier.id());
+        }
+
+    }
 }

@@ -27,7 +27,7 @@ class WatchVerifierTest {
     }
 
     @Test
-    void can_watch_video_in_whitelist_mode_if_filter_exists() {
+    void can_watch_video_in_whitelist_mode_if_matching_filter_exists() {
         // given
         var mode = VerifierMode.WHITELIST;
         var provider = Provider.YOUTUBE;
@@ -36,6 +36,23 @@ class WatchVerifierTest {
 
         var sut = new WatchVerifier(UUID.randomUUID());
         sut.addFilter(mode, provider, property);
+
+        // when
+        boolean canWatch = sut.canWatch(video, mode);
+
+        // then
+        assertTrue(canWatch);
+    }
+
+    @Test
+    void can_watch_video_in_whiltelist_mode_if_no_filter_exits() {
+        // given
+        var mode = VerifierMode.WHITELIST;
+        var provider = Provider.YOUTUBE;
+        var property = new Property.Category("test");
+        var video = new Video("test-id", provider, List.of(property));
+
+        var sut = new WatchVerifier(UUID.randomUUID());
 
         // when
         boolean canWatch = sut.canWatch(video, mode);
@@ -61,7 +78,7 @@ class WatchVerifierTest {
     }
 
     @Test
-    void cannot_watch_video_in_whitelist_mode_if_filter_not_exists() {
+    void cannot_watch_video_in_whitelist_mode_if_no_matching_filter_exists() {
         // given
         var mode = VerifierMode.WHITELIST;
         var video = new Video("test-id", Provider.YOUTUBE, List.of(new Property.Category("test")));

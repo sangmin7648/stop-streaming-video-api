@@ -12,7 +12,7 @@ public interface RegisterWatchVerifierUseCase {
     UUID registerWatchVerifier(UUID userId);
 
     /**
-     *
+     * add filter to verifier
      * @param command : params required for filter registration
      */
     void addWatchFilter(AddWatchFilterCommand command);

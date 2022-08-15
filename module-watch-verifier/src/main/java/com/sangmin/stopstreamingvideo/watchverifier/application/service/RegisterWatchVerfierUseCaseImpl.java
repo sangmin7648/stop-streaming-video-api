@@ -9,7 +9,6 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
-import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public class RegisterWatchVerfierUseCaseImpl implements RegisterWatchVerifierUseCase {
@@ -26,14 +25,8 @@ public class RegisterWatchVerfierUseCaseImpl implements RegisterWatchVerifierUse
 
     @Override
     public void addWatchFilter(@NonNull AddWatchFilterCommand command) {
-        WatchVerifier watchVerifier = watchVerifierRepository.findByUserId(command.userId())
-                .orElseThrow(verifierNotFound(command.userId()));
-
+        WatchVerifier watchVerifier = watchVerifierRepository.getByUserId(command.userId());
         watchVerifier.addFilter(command.mode(), command.provider(), command.property());
-    }
-
-    private Supplier<Exceptions.VerifierNotFound> verifierNotFound(UUID userId) {
-        return () -> new Exceptions.VerifierNotFound("verifier for user not found", null, userId);
     }
 
 }
