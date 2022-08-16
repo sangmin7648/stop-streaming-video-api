@@ -1,10 +1,10 @@
-package com.sangmin.stopstreamingvideo;
+package com.sangmin.stopstreamingvideoapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WatchVerifierApplicationTests {
+class StopStreamingVideoApiApplicationTests {
 
     @Test
     void contextLoads() {

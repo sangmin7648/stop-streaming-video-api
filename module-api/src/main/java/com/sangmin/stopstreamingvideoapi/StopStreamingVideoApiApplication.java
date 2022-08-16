@@ -1,13 +1,13 @@
-package com.sangmin.stopstreamingvideo;
+package com.sangmin.stopstreamingvideoapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WatchVerifierApplication {
+public class StopStreamingVideoApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WatchVerifierApplication.class, args);
+        SpringApplication.run(StopStreamingVideoApiApplication.class, args);
     }
 
 }

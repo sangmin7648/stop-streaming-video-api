@@ -2,6 +2,13 @@ plugins {
     id 'java'
 }
 
+bootJar {
+    enabled = false
+}
+jar {
+    enabled = true
+}
+
 group 'com.sangmin'
 version '0.0.1-SNAPSHOT'
 
@@ -17,3 +24,4 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
