@@ -5,10 +5,12 @@ import com.sangmin.stopstreamingvideo.common.Exceptions;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Video;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.function.Supplier;
 
+@Service
 @RequiredArgsConstructor
 public class VideoService {
 
