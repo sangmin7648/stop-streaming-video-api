@@ -1,6 +1,6 @@
 package com.sangmin.stopstreamingvideo.watchverifier.application.service;
 
-import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.AddWatchFilterCommand;
+import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.RegisterWatchVerifierUseCase;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.WatchVerifierRepository;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,7 +50,7 @@ class RegisterWatchVerfierUseCaseImplTest {
         var mode = VerifierMode.WHITELIST;
         var provider = Provider.YOUTUBE;
         var property = new Property.Category("test");
-        var command = new AddWatchFilterCommand(userId, mode, provider, property);
+        var command = new RegisterWatchVerifierUseCase.AddFilterCommand(userId, mode, provider, property);
 
         // when
         sut.addWatchFilter(command);

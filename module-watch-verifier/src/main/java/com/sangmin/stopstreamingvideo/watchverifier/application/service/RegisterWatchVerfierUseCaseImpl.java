@@ -1,7 +1,5 @@
 package com.sangmin.stopstreamingvideo.watchverifier.application.service;
 
-import com.sangmin.stopstreamingvideo.common.Exceptions;
-import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.AddWatchFilterCommand;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.RegisterWatchVerifierUseCase;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.WatchVerifierRepository;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.WatchVerifier;
@@ -24,7 +22,7 @@ public class RegisterWatchVerfierUseCaseImpl implements RegisterWatchVerifierUse
     }
 
     @Override
-    public void addWatchFilter(@NonNull AddWatchFilterCommand command) {
+    public void addWatchFilter(@NonNull AddFilterCommand command) {
         WatchVerifier watchVerifier = watchVerifierRepository.getByUserId(command.userId());
         watchVerifier.addFilter(command.mode(), command.provider(), command.property());
     }
