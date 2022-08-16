@@ -14,15 +14,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class RegisterWatchVerfierUseCaseImplTest {
+class RegisterWatchVerifierUseCaseImplTest {
 
-    private RegisterWatchVerfierUseCaseImpl sut;
+    private RegisterWatchVerifierUseCaseImpl sut;
     private WatchVerifierRepository repository;
 
     @BeforeEach
     void setup() {
         repository = new DummyWatchVerifierRepository();
-        sut = new RegisterWatchVerfierUseCaseImpl(repository);
+        sut = new RegisterWatchVerifierUseCaseImpl(repository);
     }
 
     @Test
