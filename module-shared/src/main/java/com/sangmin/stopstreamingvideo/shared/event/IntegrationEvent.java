@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @ToString
 @EqualsAndHashCode
-public sealed class IntegrationEvent permits UserSignedUpEvent {
+public class IntegrationEvent {
 
     private final UUID workflowId;
     private final UUID messageId;
