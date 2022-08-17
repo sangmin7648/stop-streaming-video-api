@@ -3,4 +3,5 @@ rootProject.name = 'stop-streaming-video-api'
 include 'module-watch-verifier'
 include 'module-api'
 include 'module-shared'
+include 'module-user'
 
