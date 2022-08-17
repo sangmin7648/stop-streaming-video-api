@@ -25,7 +25,7 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
     private final String apiKey;
     private YouTube youtube;
 
-    public FindYoutubeVideoAgent(@Value("provider.youtube.api-key") String apiKey) {
+    public FindYoutubeVideoAgent(@Value("${provider.youtube.api-key}") String apiKey) {
         this.apiKey = apiKey;
     }
 
