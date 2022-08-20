@@ -1,4 +1,4 @@
-package com.sangmin.stopstreamingvideo.user.common;
+package com.sangmin.stopstreamingvideo.common;
 
 import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Notification;

@@ -14,7 +14,7 @@ public class InMemoryUserRepository implements UserRepository {
 
     @Override
     public User save(User user) {
-        map.put(user.userId(), user);
+        map.put(user.id(), user);
         return user;
     }
 

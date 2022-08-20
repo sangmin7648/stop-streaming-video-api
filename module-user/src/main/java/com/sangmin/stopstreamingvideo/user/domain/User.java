@@ -4,18 +4,18 @@ import java.util.UUID;
 
 public class User {
 
-    private final UUID userId;
+    private final UUID id;
     private String username;
     private String hashedPassword;
 
     public User(String username, String password) {
-        this.userId = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.username = username;
         this.changePassword(password);
     }
 
-    public UUID userId() {
-        return userId;
+    public UUID id() {
+        return id;
     }
 
     public void changeUsername(String username) {
