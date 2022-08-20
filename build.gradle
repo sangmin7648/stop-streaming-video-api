@@ -34,7 +34,6 @@ subprojects {
     }
 
     dependencies {
-        implementation 'net.sizovs:pipelinr:0.7'
         implementation 'org.springframework.boot:spring-boot-starter'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'

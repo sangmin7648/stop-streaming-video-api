@@ -1,5 +1,6 @@
 package com.sangmin.stopstreamingvideo.user.feature;
 
+import com.sangmin.stopstreamingvideo.common.Exceptions;
 import com.sangmin.stopstreamingvideo.shared.event.UserSignedUpEvent;
 import com.sangmin.stopstreamingvideo.user.domain.User;
 import com.sangmin.stopstreamingvideo.user.repository.UserRepository;
@@ -22,11 +23,16 @@ public class SignUp {
 
         @Override
         public UUID handle(Command command) {
-            var newUser = new User(command.username, command.password);
-            User user = userRepository.save(newUser);
+            User user = userRepository.getByUsername(command.username);
+            if (user != null) {
+                throw new Exceptions.UsernameAlreadyExist("username " + command.username + " already exists");
+            }
 
-            eventPublisher.publishEvent(new UserSignedUpEvent(user.id()));
-            return user.id();
+            var newUser = new User(command.username, command.password);
+            User savedUser = userRepository.save(newUser);
+
+            eventPublisher.publishEvent(new UserSignedUpEvent(savedUser.id()));
+            return savedUser.id();
         }
 
     }

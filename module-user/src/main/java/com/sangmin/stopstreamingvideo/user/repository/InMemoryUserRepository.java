@@ -18,4 +18,12 @@ public class InMemoryUserRepository implements UserRepository {
         return user;
     }
 
+    @Override
+    public User getByUsername(String username) {
+        return map.values().stream()
+                .filter(user -> user.username().equals(username))
+                .findAny()
+                .orElse(null);
+    }
+
 }

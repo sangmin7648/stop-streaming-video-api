@@ -18,6 +18,10 @@ public class User {
         return id;
     }
 
+    public String username() {
+        return username;
+    }
+
     public void changeUsername(String username) {
         this.username = username;
     }

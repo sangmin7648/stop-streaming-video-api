@@ -9,16 +9,10 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class IntegrationEvent {
 
-    private final UUID workflowId;
     private final UUID messageId;
 
-    public IntegrationEvent(UUID workflowId) {
-        this.workflowId = workflowId;
+    public IntegrationEvent() {
         this.messageId = UUID.randomUUID();
-    }
-
-    public UUID workflowId() {
-        return workflowId;
     }
 
     public UUID messageId() {
