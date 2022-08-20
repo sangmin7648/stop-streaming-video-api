@@ -2,6 +2,7 @@ package com.sangmin.stopstreamingvideo.shared.event;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.slf4j.MDC;
 
 import java.util.UUID;
 
@@ -10,8 +11,8 @@ import java.util.UUID;
 public final class UserSignedUpEvent extends IntegrationEvent {
     private final UUID userId;
 
-    public UserSignedUpEvent(UUID workflowId, UUID userId) {
-        super(workflowId);
+    public UserSignedUpEvent(UUID userId) {
+        super(UUID.fromString(MDC.get("workflowId")));
         this.userId = userId;
     }
 
