@@ -55,3 +55,9 @@ project(':module-watch-verifier') {
         implementation project(':module-shared')
     }
 }
+
+project(':module-user') {
+    dependencies {
+        implementation project(':module-shared')
+    }
+}
