@@ -3,7 +3,7 @@ package com.sangmin.stopstreamingvideo.user.feature;
 import com.sangmin.stopstreamingvideo.common.Exceptions;
 import com.sangmin.stopstreamingvideo.shared.event.UserSignedUpEvent;
 import com.sangmin.stopstreamingvideo.user.domain.User;
-import com.sangmin.stopstreamingvideo.user.repository.UserRepository;
+import com.sangmin.stopstreamingvideo.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;

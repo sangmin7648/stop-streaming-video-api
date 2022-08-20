@@ -1,4 +1,4 @@
-package com.sangmin.stopstreamingvideo.user.repository;
+package com.sangmin.stopstreamingvideo.user.domain;
 
 import com.sangmin.stopstreamingvideo.user.domain.User;
 

@@ -1,6 +1,7 @@
-package com.sangmin.stopstreamingvideo.user.repository;
+package com.sangmin.stopstreamingvideo.user.infra;
 
 import com.sangmin.stopstreamingvideo.user.domain.User;
+import com.sangmin.stopstreamingvideo.user.domain.UserRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
