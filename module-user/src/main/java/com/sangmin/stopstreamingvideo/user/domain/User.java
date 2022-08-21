@@ -6,12 +6,10 @@ public class User {
 
     private final UUID id;
     private String username;
-    private String hashedPassword;
 
-    public User(String username, String password) {
+    public User(String username) {
         this.id = UUID.randomUUID();
         this.username = username;
-        this.changePassword(password);
     }
 
     public UUID id() {
@@ -24,11 +22,6 @@ public class User {
 
     public void changeUsername(String username) {
         this.username = username;
-    }
-
-    public void changePassword(String password) {
-        // TODO: hash password
-        this.hashedPassword = password;
     }
 
 }

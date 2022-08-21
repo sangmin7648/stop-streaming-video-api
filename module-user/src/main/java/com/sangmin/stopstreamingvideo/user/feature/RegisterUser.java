@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-public class SignUp {
+public class RegisterUser {
 
-    public record Command(String username, String password) implements an.awesome.pipelinr.Command<UUID> { }
+    public record Command(String username) implements an.awesome.pipelinr.Command<UUID> { }
 
     @Component
     @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class SignUp {
                 throw new Exceptions.UsernameAlreadyExist("username " + command.username + " already exists");
             }
 
-            var newUser = new User(command.username, command.password);
+            var newUser = new User(command.username);
             User savedUser = userRepository.save(newUser);
 
             eventPublisher.publishEvent(new UserSignedUpEvent(savedUser.id()));

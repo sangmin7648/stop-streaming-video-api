@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class SignUpTest {
+class RegisterUserTest {
 
     private Pipeline pipeline;
     private UserRepository userRepository = new InMemoryUserRepository();
@@ -31,7 +31,7 @@ class SignUpTest {
     @BeforeEach
     void setup() {
         eventPublisher = mock(ApplicationEventPublisher.class);
-        var handler = new SignUp.Handler(userRepository, eventPublisher);
+        var handler = new RegisterUser.Handler(userRepository, eventPublisher);
         pipeline = new Pipelinr()
                 .with(() -> Stream.of(handler));
     }
@@ -39,7 +39,7 @@ class SignUpTest {
     @Test
     void user_sign_up() {
         String username = "test";
-        var command = new SignUp.Command(username, "test123");
+        var command = new RegisterUser.Command(username);
 
         UUID userId = command.execute(pipeline);
 
@@ -50,9 +50,9 @@ class SignUpTest {
 
     @Test
     void already_existing_username_cannot_signup() {
-        var command1 = new SignUp.Command("test", "test123");
+        var command1 = new RegisterUser.Command("test");
         command1.execute(pipeline);
-        var command2 = new SignUp.Command("test", "test123");
+        var command2 = new RegisterUser.Command("test");
 
         assertThatThrownBy(() -> command2.execute(pipeline))
                 .isInstanceOf(Exceptions.UsernameAlreadyExist.class);
