@@ -1,0 +1,8 @@
+POST http://localhost:8080/v1/watch-verifier/user/d3b1b35c-7759-43ba-a9b8-ffaf40ad8e43/WHITELIST/add-watch-filter
+Content-Type: application/json
+
+{
+  "provider": "YOUTUBE",
+  "type": "CATEGORY",
+  "value": "gaming"
+}

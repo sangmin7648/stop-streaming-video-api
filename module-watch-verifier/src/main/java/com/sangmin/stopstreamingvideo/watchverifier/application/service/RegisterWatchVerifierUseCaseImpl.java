@@ -27,6 +27,7 @@ class RegisterWatchVerifierUseCaseImpl implements RegisterWatchVerifierUseCase {
     public void addWatchFilter(@NonNull AddFilterCommand command) {
         WatchVerifier watchVerifier = watchVerifierRepository.getByUserId(command.userId());
         watchVerifier.addFilter(command.mode(), command.provider(), command.property());
+        watchVerifierRepository.save(watchVerifier);
     }
 
 }

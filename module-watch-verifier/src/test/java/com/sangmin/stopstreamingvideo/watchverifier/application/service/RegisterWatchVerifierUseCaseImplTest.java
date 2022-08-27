@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class RegisterWatchVerifierUseCaseImplTest {
 
     private RegisterWatchVerifierUseCaseImpl sut;
-    private WatchVerifierRepository repository;
+    private DummyWatchVerifierRepository repository;
 
     @BeforeEach
     void setup() {
@@ -43,7 +43,7 @@ class RegisterWatchVerifierUseCaseImplTest {
     }
 
     @Test
-    void register_watch_filter_for_mode() {
+    void add_watch_filter() {
         // given
         var userId = UUID.randomUUID();
         sut.registerWatchVerifier(userId);
@@ -60,6 +60,7 @@ class RegisterWatchVerifierUseCaseImplTest {
         WatchVerifier watchVerifier = repository.getByUserId(userId);
         var expectedFilter = WatchVerifierTestHelper.createWatchFilter(provider, property);
         assertTrue(WatchVerifierTestHelper.getWatchFilters(mode, watchVerifier).contains(expectedFilter));
+        assertEquals(2, repository.saveCount());
     }
 
     @Test
@@ -71,6 +72,7 @@ class RegisterWatchVerifierUseCaseImplTest {
     static class DummyWatchVerifierRepository implements WatchVerifierRepository {
 
         private final Map<UUID, WatchVerifier> watchVerifierMap = new HashMap<>();
+        private int saveCount = 0;
 
         @NonNull
         @Override
@@ -84,6 +86,7 @@ class RegisterWatchVerifierUseCaseImplTest {
         @Override
         public WatchVerifier save(WatchVerifier watchVerifier) {
             watchVerifierMap.put(watchVerifier.id(), watchVerifier);
+            saveCount++;
             return watchVerifier;
         }
 
@@ -92,5 +95,8 @@ class RegisterWatchVerifierUseCaseImplTest {
             watchVerifierMap.remove(watchVerifier.id());
         }
 
+        int saveCount() {
+            return saveCount;
+        }
     }
 }
