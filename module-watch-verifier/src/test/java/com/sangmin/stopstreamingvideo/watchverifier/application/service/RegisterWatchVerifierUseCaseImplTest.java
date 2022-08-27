@@ -5,6 +5,7 @@ import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.Wa
 import com.sangmin.stopstreamingvideo.watchverifier.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.lang.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,6 +72,7 @@ class RegisterWatchVerifierUseCaseImplTest {
 
         private final Map<UUID, WatchVerifier> watchVerifierMap = new HashMap<>();
 
+        @NonNull
         @Override
         public WatchVerifier getByUserId(UUID userId) {
             return watchVerifierMap.values().stream()

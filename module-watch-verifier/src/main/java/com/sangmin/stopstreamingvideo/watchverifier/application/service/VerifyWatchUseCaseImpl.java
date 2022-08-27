@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @UseCase
 @RequiredArgsConstructor
-public class VerifyWatchUseCaseImpl implements VerifyWatchUseCase {
+class VerifyWatchUseCaseImpl implements VerifyWatchUseCase {
 
     private final WatchVerifierRepository watchVerifierRepository;
     private final VideoService videoService;

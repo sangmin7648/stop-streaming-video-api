@@ -12,11 +12,11 @@ import java.util.function.Supplier;
 
 @Service
 @RequiredArgsConstructor
-public class VideoService {
+class VideoService {
 
     private final List<FindVideoAgent> findVideoAgents;
 
-    public Video getVideo(final String videoId, final Provider provider) {
+    Video getVideo(final String videoId, final Provider provider) {
         FindVideoAgent videoAgent = routeFindVideoAgent(provider);
 
         return videoAgent.findVideo(videoId)

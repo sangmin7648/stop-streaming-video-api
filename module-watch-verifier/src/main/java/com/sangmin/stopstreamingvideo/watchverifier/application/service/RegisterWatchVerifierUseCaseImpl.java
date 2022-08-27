@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor
-public class RegisterWatchVerifierUseCaseImpl implements RegisterWatchVerifierUseCase {
+class RegisterWatchVerifierUseCaseImpl implements RegisterWatchVerifierUseCase {
 
     private final WatchVerifierRepository watchVerifierRepository;
 
