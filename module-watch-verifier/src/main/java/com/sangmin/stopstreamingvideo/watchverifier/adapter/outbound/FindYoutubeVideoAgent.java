@@ -67,7 +67,7 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
                 .setId(List.of(videoId))
                 .execute();
 
-        if (videoResponse == null) {
+        if (videoResponse.getItems().isEmpty()) {
             return null;
         }
 

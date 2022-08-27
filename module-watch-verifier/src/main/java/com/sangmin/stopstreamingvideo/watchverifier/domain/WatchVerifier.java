@@ -35,21 +35,21 @@ public class WatchVerifier {
     }
 
     public boolean canWatch(@NonNull Video video, @NonNull VerifierMode mode) {
-        return watchVerifierItems.stream()
-                .filter(v -> v.supports(mode))
-                .findAny()
-                .map(v -> v.canWatch(video))
-                .orElse(false);
+        WatchVerifierItem watchVerifierItem = routeVerifierItem(mode);
+        return watchVerifierItem.canWatch(video);
     }
 
     public void addFilter(@NonNull VerifierMode mode, @NonNull Provider provider, @NonNull Property property) {
-        WatchVerifierItem watchVerifierItem = watchVerifierItems.stream()
+        WatchVerifierItem watchVerifierItem = routeVerifierItem(mode);
+        var newFilter = new WatchFilter(provider, property);
+        watchVerifierItem.addFilter(newFilter);
+    }
+
+    private WatchVerifierItem routeVerifierItem(VerifierMode mode) {
+        return watchVerifierItems.stream()
                 .filter(v -> v.supports(mode))
                 .findAny()
                 .orElseThrow(verifierNotFound(mode));
-
-        var newFilter = new WatchFilter(provider, property);
-        watchVerifierItem.addFilter(newFilter);
     }
 
     private Supplier<Exceptions.VerifierNotFound> verifierNotFound(VerifierMode mode) {
