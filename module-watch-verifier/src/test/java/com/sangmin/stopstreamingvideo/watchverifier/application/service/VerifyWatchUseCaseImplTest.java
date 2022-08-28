@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,7 +51,7 @@ class VerifyWatchUseCaseImplTest {
         // given
         var userId = UUID.randomUUID();
         var videoId = "test-id";
-        var command = new VerifyWatchUseCase.Command(userId, videoId, provider, mode);
+        var command = new VerifyWatchUseCase.UserWatchCommand(userId, videoId, provider, mode);
         var video = new Video(videoId, provider, List.of(property));
         var watchVerifier = new WatchVerifier(userId);
         watchVerifier.addFilter(mode, provider, property);
@@ -90,7 +91,7 @@ class VerifyWatchUseCaseImplTest {
         // given
         var userId = UUID.randomUUID();
         var videoId = "test-id";
-        var command = new VerifyWatchUseCase.Command(userId, videoId, provider, mode);
+        var command = new VerifyWatchUseCase.UserWatchCommand(userId, videoId, provider, mode);
         var video = new Video(videoId, provider, List.of(property));
         setupMock(video, new WatchVerifier(userId));
 
@@ -116,10 +117,86 @@ class VerifyWatchUseCaseImplTest {
         );
     }
 
-    private void setupMock(Video video, WatchVerifier watchVerifier) {
+    @ParameterizedTest
+    @MethodSource
+    void anon_can_watch_depending_on_mode_when_attributes_are_given(
+            Provider provider,
+            VerifierMode mode,
+            List<Property> properties,
+            boolean expected
+    ) {
+        // given
+        var videoId = "test-id";
+        var video = new Video(videoId, provider, properties);
+        setupMockVideoAgent(video);
+        var command = new VerifyWatchUseCase.AnonWatchCommand(properties, videoId, provider, mode);
+
+        // when
+        boolean canWatch = sut.canWatch(command);
+
+        // then
+        assertEquals(expected, canWatch);
+    }
+
+    private static Stream<Arguments> anon_can_watch_depending_on_mode_when_attributes_are_given() {
+        return Stream.of(
+                Arguments.of(
+                        Provider.YOUTUBE,
+                        VerifierMode.WHITELIST,
+                        List.of(new Property.Category("test")),
+                        true
+                ),
+                Arguments.of(
+                        Provider.YOUTUBE,
+                        VerifierMode.BLACKLIST,
+                        List.of(new Property.Category("test")),
+                        false
+                )
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void anon_can_always_watch_video_when_no_attributes_are_given(
+            Provider provider,
+            VerifierMode mode,
+            List<Property> properties
+    ) {
+        // given
+        var videoId = "test-id";
+        var video = new Video(videoId, provider, properties);
+        setupMockVideoAgent(video);
+        var command = new VerifyWatchUseCase.AnonWatchCommand(Collections.emptyList(), videoId, provider, mode);
+
+        // when
+        boolean canWatch = sut.canWatch(command);
+
+        // then
+        assertTrue(canWatch);
+    }
+
+    private static Stream<Arguments> anon_can_always_watch_video_when_no_attributes_are_given() {
+        return Stream.of(
+                Arguments.of(
+                        Provider.YOUTUBE,
+                        VerifierMode.WHITELIST,
+                        List.of(new Property.Category("test"))
+                ),
+                Arguments.of(
+                        Provider.YOUTUBE,
+                        VerifierMode.BLACKLIST,
+                        List.of(new Property.Category("test"))
+                )
+        );
+    }
+
+    private void setupMockVideoAgent(Video video) {
         given(findVideoAgent.supports(any(Provider.class))).willReturn(true);
         given(findVideoAgent.findVideo(anyString())).willReturn(Optional.of(video));
+    }
 
+    private void setupMock(Video video, WatchVerifier watchVerifier) {
+        setupMockVideoAgent(video);
         given(watchVerifierRepository.getByUserId(any(UUID.class))).willReturn(watchVerifier);
     }
 

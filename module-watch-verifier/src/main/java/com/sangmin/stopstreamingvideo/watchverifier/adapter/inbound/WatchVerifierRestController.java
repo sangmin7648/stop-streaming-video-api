@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,7 +27,7 @@ class WatchVerifierRestController {
             @RequestParam String provider,
             @RequestParam String videoId
     ) {
-        var command = new VerifyWatchUseCase.Command(
+        var command = new VerifyWatchUseCase.UserWatchCommand(
                 UUID.fromString(userId),
                 videoId,
                 Provider.valueOf(provider),
@@ -37,25 +38,26 @@ class WatchVerifierRestController {
         return new ResponseEntity<>(canWatch, HttpStatus.OK);
     }
 
-    @PostMapping("/v1/watch-verifier/user/{userId}/{mode}/add-watch-filter")
-    ResponseEntity<Void> addWatchFilter(
-            @PathVariable String userId,
+    @GetMapping("/v1/watch-verifier/{mode}/verify-watch")
+    ResponseEntity<Boolean> verifyWatch(
             @PathVariable String mode,
-            @RequestBody FilterRequest req
+            @RequestParam String provider,
+            @RequestParam String videoId,
+            @RequestParam List<PropertyRequest> propertyRequests
     ) {
-        var command = new RegisterWatchVerifierUseCase.AddFilterCommand(
-                UUID.fromString(userId),
-                VerifierMode.valueOf(mode),
-                Provider.valueOf(req.provider()),
-                req.toProperty()
-        );
-        registerWatchVerifierUseCase.addWatchFilter(command);
+        List<Property> properties = propertyRequests.stream().map(PropertyRequest::toProperty).toList();
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        var command = new VerifyWatchUseCase.AnonWatchCommand(
+                properties, videoId,
+                Provider.valueOf(provider),
+                VerifierMode.valueOf(mode)
+        );
+        boolean canWatch = verifyWatchUseCase.canWatch(command);
+
+        return new ResponseEntity<>(canWatch, HttpStatus.OK);
     }
 
-    private record FilterRequest(
-            String provider,
+    private record PropertyRequest(
             Type type,
             String value
     ) {
@@ -69,4 +71,28 @@ class WatchVerifierRestController {
             };
         }
     }
+
+    @PostMapping("/v1/watch-verifier/user/{userId}/{mode}/add-watch-filter")
+    ResponseEntity<Void> addWatchFilter(
+            @PathVariable String userId,
+            @PathVariable String mode,
+            @RequestBody FilterRequest req
+    ) {
+        var command = new RegisterWatchVerifierUseCase.AddFilterCommand(
+                UUID.fromString(userId),
+                VerifierMode.valueOf(mode),
+                Provider.valueOf(req.provider()),
+                req.property().toProperty()
+        );
+        registerWatchVerifierUseCase.addWatchFilter(command);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private record FilterRequest(
+            String provider,
+            PropertyRequest property
+    ) {
+    }
+
 }
