@@ -1,18 +1,17 @@
 package com.sangmin.stopstreamingvideo.watchverifier.application.service;
 
-import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.FindVideoAgent;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.sangmin.stopstreamingvideo.common.Exceptions;
+import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.FindVideoAgent;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Property;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Video;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
 import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 class VideoServiceTest {
 
@@ -35,7 +34,7 @@ class VideoServiceTest {
         String videoId = "no-video";
 
         assertThatThrownBy(() -> sut.getVideo(videoId, Provider.YOUTUBE))
-                .isInstanceOf(Exceptions.VideoNotFound.class);
+            .isInstanceOf(Exceptions.VideoNotFound.class);
     }
 
     @Test
@@ -43,7 +42,7 @@ class VideoServiceTest {
         String videoId = "test";
 
         assertThatThrownBy(() -> sut.getVideo(videoId, null))
-                .isInstanceOf(Exceptions.ProviderVideoAgentNotFound.class);
+            .isInstanceOf(Exceptions.ProviderVideoAgentNotFound.class);
     }
 
     static class FakeFindYoutubeVideoAgent implements FindVideoAgent {
@@ -60,9 +59,9 @@ class VideoServiceTest {
             }
 
             List<Property> properties = List.of(
-                    new Property.Category("gaming"),
-                    new Property.Category("news"),
-                    new Property.Category("test")
+                new Property.Category("gaming"),
+                new Property.Category("news"),
+                new Property.Category("test")
             );
 
             return Optional.of(new Video(videoId, Provider.YOUTUBE, properties));

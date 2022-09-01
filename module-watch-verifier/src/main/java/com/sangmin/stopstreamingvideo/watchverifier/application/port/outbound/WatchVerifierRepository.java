@@ -1,9 +1,8 @@
 package com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound;
 
 import com.sangmin.stopstreamingvideo.watchverifier.domain.WatchVerifier;
-import org.springframework.lang.NonNull;
-
 import java.util.UUID;
+import org.springframework.lang.NonNull;
 
 public interface WatchVerifierRepository {
 

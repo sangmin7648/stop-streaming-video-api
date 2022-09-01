@@ -1,14 +1,13 @@
 package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
-import com.sangmin.stopstreamingvideo.common.Exceptions;
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Test;
-
-import java.util.List;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.sangmin.stopstreamingvideo.common.Exceptions;
+import java.util.List;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 class WatchVerifierItemTest {
 
@@ -29,7 +28,7 @@ class WatchVerifierItemTest {
         addMaxFilter(sut, 1000);
 
         assertThatThrownBy(() -> sut.addFilter(filter))
-                .isInstanceOf(Exceptions.FilterMaxCapacityReached.class);
+            .isInstanceOf(Exceptions.FilterMaxCapacityReached.class);
     }
 
     @Test

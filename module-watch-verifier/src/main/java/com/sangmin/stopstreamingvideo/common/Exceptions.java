@@ -1,9 +1,8 @@
 package com.sangmin.stopstreamingvideo.common;
 
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
-import lombok.Getter;
-
 import java.util.UUID;
+import lombok.Getter;
 
 public class Exceptions {
 

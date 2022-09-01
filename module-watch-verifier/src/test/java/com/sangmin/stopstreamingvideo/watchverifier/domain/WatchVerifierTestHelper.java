@@ -1,18 +1,17 @@
 package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
-import org.springframework.test.util.ReflectionTestUtils;
-
 import java.util.List;
 import java.util.Set;
+import org.springframework.test.util.ReflectionTestUtils;
 
 public class WatchVerifierTestHelper {
 
     public static Set<WatchFilter> getWatchFilters(VerifierMode mode, WatchVerifier sut) {
         return getWatchVerifierItems(sut).stream()
-                .filter(wvi -> wvi.supports(mode))
-                .map(WatchVerifierTestHelper::getWatchFilters)
-                .findAny()
-                .orElseThrow();
+            .filter(wvi -> wvi.supports(mode))
+            .map(WatchVerifierTestHelper::getWatchFilters)
+            .findAny()
+            .orElseThrow();
     }
 
     public static List<WatchVerifierItem> getWatchVerifierItems(WatchVerifier watchVerifier) {

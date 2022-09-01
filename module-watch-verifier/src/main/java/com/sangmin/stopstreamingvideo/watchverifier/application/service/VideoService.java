@@ -1,14 +1,13 @@
 package com.sangmin.stopstreamingvideo.watchverifier.application.service;
 
-import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.FindVideoAgent;
 import com.sangmin.stopstreamingvideo.common.Exceptions;
+import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.FindVideoAgent;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Video;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.function.Supplier;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -20,14 +19,14 @@ class VideoService {
         FindVideoAgent videoAgent = routeFindVideoAgent(provider);
 
         return videoAgent.findVideo(videoId)
-                .orElseThrow(() -> new Exceptions.VideoNotFound("failed to get video", videoId));
+            .orElseThrow(() -> new Exceptions.VideoNotFound("failed to get video", videoId));
     }
 
     private FindVideoAgent routeFindVideoAgent(final Provider provider) {
         return findVideoAgents.stream()
-                .filter(agent -> agent.supports(provider))
-                .findAny()
-                .orElseThrow(providerVideoAgentNotFound(provider));
+            .filter(agent -> agent.supports(provider))
+            .findAny()
+            .orElseThrow(providerVideoAgentNotFound(provider));
     }
 
     private Supplier<Exceptions.ProviderVideoAgentNotFound> providerVideoAgentNotFound(Provider provider) {

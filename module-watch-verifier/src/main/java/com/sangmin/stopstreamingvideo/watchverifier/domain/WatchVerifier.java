@@ -1,12 +1,11 @@
 package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
 import com.sangmin.stopstreamingvideo.common.Exceptions;
-import lombok.NonNull;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
+import lombok.NonNull;
 
 public class WatchVerifier {
 
@@ -30,8 +29,8 @@ public class WatchVerifier {
 
     private List<WatchVerifierItem> initVerifiers() {
         return Arrays.stream(VerifierMode.values())
-                .map(WatchVerifierItem::new)
-                .toList();
+            .map(WatchVerifierItem::new)
+            .toList();
     }
 
     public boolean canWatch(@NonNull Video video, @NonNull VerifierMode mode) {
@@ -47,9 +46,9 @@ public class WatchVerifier {
 
     private WatchVerifierItem routeVerifierItem(VerifierMode mode) {
         return watchVerifierItems.stream()
-                .filter(v -> v.supports(mode))
-                .findAny()
-                .orElseThrow(verifierNotFound(mode));
+            .filter(v -> v.supports(mode))
+            .findAny()
+            .orElseThrow(verifierNotFound(mode));
     }
 
     private Supplier<Exceptions.VerifierNotFound> verifierNotFound(VerifierMode mode) {

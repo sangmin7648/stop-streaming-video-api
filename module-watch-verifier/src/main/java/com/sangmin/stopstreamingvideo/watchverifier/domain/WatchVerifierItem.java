@@ -1,10 +1,9 @@
 package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
 import com.sangmin.stopstreamingvideo.common.Exceptions;
-import lombok.NonNull;
-
 import java.util.HashSet;
 import java.util.Set;
+import lombok.NonNull;
 
 class WatchVerifierItem {
 

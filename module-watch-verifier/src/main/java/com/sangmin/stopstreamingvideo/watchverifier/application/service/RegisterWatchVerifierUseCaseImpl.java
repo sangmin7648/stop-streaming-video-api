@@ -4,10 +4,9 @@ import com.sangmin.stopstreamingvideo.shared.componentannotation.UseCase;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.RegisterWatchVerifierUseCase;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.WatchVerifierRepository;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.WatchVerifier;
+import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
 
 @UseCase
 @RequiredArgsConstructor

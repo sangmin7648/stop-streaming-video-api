@@ -4,5 +4,6 @@ public sealed interface Property {
 
     String value();
 
-    record Category (String value) implements Property { }
+    record Category(String value) implements Property {
+    }
 }

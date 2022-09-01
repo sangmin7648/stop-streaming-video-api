@@ -8,15 +8,14 @@ import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.Fi
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Property;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Video;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Nullable;
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
@@ -33,8 +32,8 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
     @PostConstruct
     void setupYoutube() {
         this.youtube = new YouTube.Builder(new NetHttpTransport(), new GsonFactory(), reqInit -> { /* no-op */ })
-                .setApplicationName("stop-streaming-video")
-                .build();
+            .setApplicationName("stop-streaming-video")
+            .build();
     }
 
     @Override
@@ -62,10 +61,10 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
     @Nullable
     private String retrieveVideoCategoryId(String videoId) throws IOException {
         VideoListResponse videoResponse = youtube.videos()
-                .list(List.of("snippet"))
-                .setKey(apiKey)
-                .setId(List.of(videoId))
-                .execute();
+            .list(List.of("snippet"))
+            .setKey(apiKey)
+            .setId(List.of(videoId))
+            .execute();
 
         if (videoResponse.getItems().isEmpty()) {
             return null;
@@ -77,7 +76,7 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
 
     private Video createVideo(String videoId, String categoryTitle) {
         List<Property> properties = List.of(
-                new Property.Category(categoryTitle)
+            new Property.Category(categoryTitle)
         );
 
         return new Video(videoId, Provider.YOUTUBE, properties);

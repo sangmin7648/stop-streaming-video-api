@@ -2,12 +2,11 @@ package com.sangmin.stopstreamingvideo.watchverifier.adapter.outbound;
 
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.WatchVerifierRepository;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.WatchVerifier;
-import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Repository;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.lang.NonNull;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryWatchVerifierRepository implements WatchVerifierRepository {
@@ -18,9 +17,9 @@ public class InMemoryWatchVerifierRepository implements WatchVerifierRepository 
     @Override
     public WatchVerifier getByUserId(UUID userId) {
         return watchVerifierMap.values().stream()
-                .filter(wv -> wv.userId().equals(userId))
-                .findAny()
-                .orElseThrow();
+            .filter(wv -> wv.userId().equals(userId))
+            .findAny()
+            .orElseThrow();
     }
 
     @Override

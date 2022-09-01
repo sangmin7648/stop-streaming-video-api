@@ -14,14 +14,14 @@ public class BeanConfig {
     // https://github.com/sizovs/PipelinR
     @Bean
     Pipeline pipeline(
-            ObjectProvider<Command.Handler> commandHandlers,
-            ObjectProvider<Notification.Handler> notificationHandlers,
-            ObjectProvider<Command.Middleware> middlewares
+        ObjectProvider<Command.Handler> commandHandlers,
+        ObjectProvider<Notification.Handler> notificationHandlers,
+        ObjectProvider<Command.Middleware> middlewares
     ) {
         return new Pipelinr()
-                .with(commandHandlers::stream)
-                .with(notificationHandlers::stream)
-                .with(middlewares::orderedStream);
+            .with(commandHandlers::stream)
+            .with(notificationHandlers::stream)
+            .with(middlewares::orderedStream);
     }
 
 }

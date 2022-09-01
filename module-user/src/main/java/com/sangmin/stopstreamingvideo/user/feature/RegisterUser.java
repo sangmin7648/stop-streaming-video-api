@@ -5,6 +5,7 @@ import com.sangmin.stopstreamingvideo.common.Exceptions;
 import com.sangmin.stopstreamingvideo.shared.event.UserSignedUpEvent;
 import com.sangmin.stopstreamingvideo.user.domain.User;
 import com.sangmin.stopstreamingvideo.user.domain.UserRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
@@ -13,13 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
+class RegisterUser {
 
-public class RegisterUser {
+    record Request(String username) {
+    }
 
-    record Request(String username) { }
-
-    record Response(UUID userId) { }
+    record Response(UUID userId) {
+    }
 
     @RestController
     @RequiredArgsConstructor
@@ -37,7 +38,8 @@ public class RegisterUser {
 
     }
 
-    public record Command(String username) implements an.awesome.pipelinr.Command<UUID> { }
+    record Command(String username) implements an.awesome.pipelinr.Command<UUID> {
+    }
 
     @Component
     @RequiredArgsConstructor

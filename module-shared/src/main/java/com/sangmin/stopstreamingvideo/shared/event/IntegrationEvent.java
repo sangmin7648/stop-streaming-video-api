@@ -1,9 +1,8 @@
 package com.sangmin.stopstreamingvideo.shared.event;
 
+import java.util.UUID;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.util.UUID;
 
 @ToString
 @EqualsAndHashCode

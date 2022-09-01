@@ -3,9 +3,9 @@ package com.sangmin.stopstreamingvideo.watchverifier.domain;
 import java.util.List;
 
 public record Video(
-        String id,
-        Provider provider,
-        List<Property> properties
+    String id,
+    Provider provider,
+    List<Property> properties
 ) {
 
     public Video(String id, Provider provider, List<Property> properties) {

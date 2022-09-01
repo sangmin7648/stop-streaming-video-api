@@ -1,16 +1,17 @@
 package com.sangmin.stopstreamingvideo.watchverifier.domain;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class WatchVerifierTest {
 
@@ -20,8 +21,8 @@ class WatchVerifierTest {
         var sut = new WatchVerifier(UUID.randomUUID());
 
         long watchVerifierItemCount = getWatchVerifierItems(sut).stream()
-                .filter(v -> v.supports(mode))
-                .count();
+            .filter(v -> v.supports(mode))
+            .count();
 
         assertEquals(1, watchVerifierItemCount);
     }
@@ -130,10 +131,10 @@ class WatchVerifierTest {
 
     private Set<WatchFilter> getWatchFilters(VerifierMode mode, WatchVerifier sut) {
         return getWatchVerifierItems(sut).stream()
-                .filter(wvi -> wvi.supports(mode))
-                .map(WatchVerifierTestHelper::getWatchFilters)
-                .findAny()
-                .orElseThrow(() -> new RuntimeException("watch filters does not exist"));
+            .filter(wvi -> wvi.supports(mode))
+            .map(WatchVerifierTestHelper::getWatchFilters)
+            .findAny()
+            .orElseThrow(() -> new RuntimeException("watch filters does not exist"));
     }
 
 }

@@ -1,19 +1,22 @@
 package com.sangmin.stopstreamingvideo.watchverifier.application.service;
 
-import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.RegisterWatchVerifierUseCase;
-import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.WatchVerifierRepository;
-import com.sangmin.stopstreamingvideo.watchverifier.domain.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.springframework.lang.NonNull;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.RegisterWatchVerifierUseCase;
+import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.WatchVerifierRepository;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.Property;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.VerifierMode;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.WatchVerifier;
+import com.sangmin.stopstreamingvideo.watchverifier.domain.WatchVerifierTestHelper;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.lang.NonNull;
 
 class RegisterWatchVerifierUseCaseImplTest {
 
@@ -39,7 +42,7 @@ class RegisterWatchVerifierUseCaseImplTest {
     @Test
     void user_id_must_be_given_when_registering_verifier() {
         assertThatThrownBy(() -> sut.registerWatchVerifier(null))
-                .isInstanceOf(NullPointerException.class);
+            .isInstanceOf(NullPointerException.class);
     }
 
     @Test
@@ -66,7 +69,7 @@ class RegisterWatchVerifierUseCaseImplTest {
     @Test
     void command_must_be_given_when_registering_filter() {
         assertThatThrownBy(() -> sut.addWatchFilter(null))
-                .isInstanceOf(NullPointerException.class);
+            .isInstanceOf(NullPointerException.class);
     }
 
     static class DummyWatchVerifierRepository implements WatchVerifierRepository {
@@ -78,9 +81,9 @@ class RegisterWatchVerifierUseCaseImplTest {
         @Override
         public WatchVerifier getByUserId(UUID userId) {
             return watchVerifierMap.values().stream()
-                    .filter(wv -> wv.userId().equals(userId))
-                    .findAny()
-                    .orElseThrow();
+                .filter(wv -> wv.userId().equals(userId))
+                .findAny()
+                .orElseThrow();
         }
 
         @Override
