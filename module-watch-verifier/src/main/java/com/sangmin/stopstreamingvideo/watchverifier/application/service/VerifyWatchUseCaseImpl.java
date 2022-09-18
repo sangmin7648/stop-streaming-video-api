@@ -16,6 +16,7 @@ class VerifyWatchUseCaseImpl implements VerifyWatchUseCase {
     private final WatchVerifierRepository watchVerifierRepository;
     private final VideoService videoService;
 
+    @Override
     public boolean canWatch(@NonNull UserWatchCommand command) {
         Video video = videoService.getVideo(command.videoId(), command.provider());
         WatchVerifier watchVerifier = watchVerifierRepository.getByUserId(command.userId());

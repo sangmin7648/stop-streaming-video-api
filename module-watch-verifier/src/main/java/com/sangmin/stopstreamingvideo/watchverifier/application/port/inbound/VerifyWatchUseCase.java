@@ -11,7 +11,7 @@ public interface VerifyWatchUseCase {
     /**
      * check if video is watchable by user.
      *
-     * @param userWatchCommand : params for watchable verification
+     * @param userWatchCommand params for watchable verification
      * @return if video is watchable
      */
     boolean canWatch(UserWatchCommand userWatchCommand);
@@ -27,7 +27,7 @@ public interface VerifyWatchUseCase {
     /**
      * check if video is watchable by anon user with given attributes.
      *
-     * @param anonWatchCommand : params for watchable verification
+     * @param anonWatchCommand params for watchable verification
      * @return if video is watchable
      */
     boolean canWatch(AnonWatchCommand anonWatchCommand);

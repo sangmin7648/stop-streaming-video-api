@@ -1,5 +1,6 @@
 package com.sangmin.stopstreamingvideo.watchverifier.adapter.inbound;
 
+import com.sangmin.stopstreamingvideo.watchverifier.adapter.inbound.dto.PropertyRequest;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.RegisterWatchVerifierUseCase;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.inbound.VerifyWatchUseCase;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Property;
@@ -42,35 +43,33 @@ class WatchVerifierRestController {
         return new ResponseEntity<>(canWatch, HttpStatus.OK);
     }
 
-    @GetMapping("/v1/watch-verifier/{mode}/verify-watch")
-    ResponseEntity<Boolean> verifyWatch(
-        @PathVariable String mode,
-        @RequestParam String provider,
-        @RequestParam String videoId,
-        @RequestParam List<PropertyRequest> propertyRequests
-    ) {
-        List<Property> properties = propertyRequests.stream().map(PropertyRequest::toProperty).toList();
-
-        var command = new VerifyWatchUseCase.AnonWatchCommand(
-            properties, videoId,
-            Provider.valueOf(provider),
-            VerifierMode.valueOf(mode)
-        );
-        boolean canWatch = verifyWatchUseCase.canWatch(command);
-
-        return new ResponseEntity<>(canWatch, HttpStatus.OK);
+    @PostMapping("/v1/watch-verifier/verify-watch")
+    ResponseEntity<AnonWatchResponse> verifyWatch(@RequestBody AnonWatchRequest req) {
+        boolean canWatch = verifyWatchUseCase.canWatch(req.toCommand());
+        return new ResponseEntity<>(new AnonWatchResponse(canWatch), HttpStatus.OK);
     }
 
-    private record PropertyRequest(Type type, String value) {
-        enum Type {
-            CATEGORY
-        }
+    record AnonWatchRequest(
+        List<PropertyRequest> properties,
+        String videoId,
+        String provider,
+        String mode
+    ) {
+        private VerifyWatchUseCase.AnonWatchCommand toCommand() {
+            List<Property> properties = this.properties().stream()
+                .map(PropertyRequest::toProperty)
+                .toList();
 
-        Property toProperty() {
-            return switch (type) {
-                case CATEGORY -> new Property.Category(value);
-            };
+            return new VerifyWatchUseCase.AnonWatchCommand(
+                properties,
+                videoId(),
+                Provider.valueOf(provider()),
+                VerifierMode.valueOf(mode())
+            );
         }
+    }
+
+    private record AnonWatchResponse(boolean canWatch) {
     }
 
     @PostMapping("/v1/watch-verifier/user/{userId}/{mode}/add-watch-filter")
