@@ -3,6 +3,8 @@ package com.sangmin.stopstreamingvideo.watchverifier.adapter.outbound;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.youtube.YouTube;
+import com.google.api.services.youtube.model.VideoCategory;
+import com.google.api.services.youtube.model.VideoCategoryListResponse;
 import com.google.api.services.youtube.model.VideoListResponse;
 import com.sangmin.stopstreamingvideo.watchverifier.application.port.outbound.FindVideoAgent;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Property;
@@ -10,8 +12,10 @@ import com.sangmin.stopstreamingvideo.watchverifier.domain.Provider;
 import com.sangmin.stopstreamingvideo.watchverifier.domain.Video;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import javax.annotation.Nullable;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,17 +27,10 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
 
     private final String apiKey;
     private YouTube youtube;
+    private Map<CategoryId, CategoryTitle> categoryMap;
 
     public FindYoutubeVideoAgent(@Value("${provider.youtube.api-key}") String apiKey) {
         this.apiKey = apiKey;
-    }
-
-    // sdk sample : https://developers.google.com/youtube/v3/code_samples/java
-    @PostConstruct
-    void setupYoutube() {
-        this.youtube = new YouTube.Builder(new NetHttpTransport(), new GsonFactory(), reqInit -> { /* no-op */ })
-            .setApplicationName("stop-streaming-video")
-            .build();
     }
 
     @Override
@@ -44,12 +41,12 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
     @Override
     public Optional<Video> findVideo(String videoId) {
         try {
-            String categoryId = this.retrieveVideoCategoryId(videoId);
-            if (categoryId == null) {
+            Optional<CategoryId> optCategoryId = this.retrieveVideoCategoryId(videoId);
+            if (optCategoryId.isEmpty()) {
                 return Optional.empty();
             }
 
-            return Optional.of(createVideo(videoId, categoryId));
+            return Optional.of(createVideo(videoId, categoryMap.get(optCategoryId.get())));
         } catch (IOException e) {
             log.error("find youtube video failed message: {}", e.getMessage(), e);
             return Optional.empty();
@@ -58,8 +55,7 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
 
     // youtube api doc :
     // https://developers.google.com/youtube/v3/docs/videos/list
-    @Nullable
-    private String retrieveVideoCategoryId(String videoId) throws IOException {
+    private Optional<CategoryId> retrieveVideoCategoryId(String videoId) throws IOException {
         VideoListResponse videoResponse = youtube.videos()
             .list(List.of("snippet"))
             .setKey(apiKey)
@@ -67,19 +63,56 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
             .execute();
 
         if (videoResponse.getItems().isEmpty()) {
-            return null;
+            return Optional.empty();
         }
 
         var youtubeVideo = videoResponse.getItems().get(0);
-        return youtubeVideo.getSnippet().getCategoryId();
+        String categoryIdStr = youtubeVideo.getSnippet().getCategoryId();
+        return Optional.of(new CategoryId(categoryIdStr));
     }
 
-    private Video createVideo(String videoId, String categoryTitle) {
+    private Video createVideo(String videoId, CategoryTitle categoryTitle) {
         List<Property> properties = List.of(
-            new Property.Category(categoryTitle)
+            new Property.Category(categoryTitle.title())
         );
 
         return new Video(videoId, Provider.YOUTUBE, properties);
+    }
+
+    // sdk sample : https://developers.google.com/youtube/v3/code_samples/java
+    @PostConstruct
+    void setupYoutube() throws IOException {
+        this.youtube = buildYoutube();
+        this.categoryMap = retrieveAllCategory();
+    }
+
+    private Map<CategoryId, CategoryTitle> retrieveAllCategory() throws IOException {
+        VideoCategoryListResponse categoryResponse = youtube.videoCategories()
+            .list(List.of("id", "snippet"))
+            .setKey(apiKey)
+            .setRegionCode("US")
+            .execute();
+
+        var categories = categoryResponse.getItems();
+        return categories.stream().collect(videoCategoryMapCollector);
+    }
+
+    private final Collector<VideoCategory, ?, Map<CategoryId, CategoryTitle>> videoCategoryMapCollector =
+        Collectors.toMap(
+            videoCategory -> new CategoryId(videoCategory.getId()),
+            videoCategory -> new CategoryTitle(videoCategory.getSnippet().getTitle())
+        );
+
+    private YouTube buildYoutube() {
+        return new YouTube.Builder(new NetHttpTransport(), new GsonFactory(), reqInit -> { /* no-op */ })
+            .setApplicationName("stop-streaming-video")
+            .build();
+    }
+
+    record CategoryId(String id) {
+    }
+
+    record CategoryTitle(String title) {
     }
 
 }

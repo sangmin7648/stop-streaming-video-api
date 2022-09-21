@@ -1,1 +1,14 @@
-GET http://localhost:8080/v1/watch-verifier/user/b9a87e60-2585-46e7-b9a5-b88948697a76/WHITELIST/verify-watch?provider=YOUTUBE&videoId=ypP4FgztjLI
+POST http://localhost:8080/v1/watch-verifier/verify-watch
+Content-Type: application/json
+
+{
+  "properties": [
+    {
+      "type": "CATEGORY",
+      "value": "Comedy"
+    }
+  ],
+  "videoId": "sxBliJuSXNI",
+  "provider": "YOUTUBE",
+  "mode": "WHITELIST"
+}
