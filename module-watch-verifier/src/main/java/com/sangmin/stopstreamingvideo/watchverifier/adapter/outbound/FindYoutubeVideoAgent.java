@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,11 +25,13 @@ import org.springframework.stereotype.Component;
 public class FindYoutubeVideoAgent implements FindVideoAgent {
 
     private final String apiKey;
-    private YouTube youtube;
-    private Map<CategoryId, CategoryTitle> categoryMap;
+    private final YouTube youtube;
+    private final Map<CategoryId, CategoryTitle> categoryMap;
 
-    public FindYoutubeVideoAgent(@Value("${provider.youtube.api-key}") String apiKey) {
+    public FindYoutubeVideoAgent(@Value("${provider.youtube.api-key}") String apiKey) throws IOException {
         this.apiKey = apiKey;
+        this.youtube = buildYoutube();
+        this.categoryMap = retrieveAllCategory();
     }
 
     @Override
@@ -79,13 +80,6 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
         return new Video(videoId, Provider.YOUTUBE, properties);
     }
 
-    // sdk sample : https://developers.google.com/youtube/v3/code_samples/java
-    @PostConstruct
-    void setupYoutube() throws IOException {
-        this.youtube = buildYoutube();
-        this.categoryMap = retrieveAllCategory();
-    }
-
     private Map<CategoryId, CategoryTitle> retrieveAllCategory() throws IOException {
         VideoCategoryListResponse categoryResponse = youtube.videoCategories()
             .list(List.of("id", "snippet"))
@@ -103,6 +97,7 @@ public class FindYoutubeVideoAgent implements FindVideoAgent {
             videoCategory -> new CategoryTitle(videoCategory.getSnippet().getTitle())
         );
 
+    // sdk sample : https://developers.google.com/youtube/v3/code_samples/java
     private YouTube buildYoutube() {
         return new YouTube.Builder(new NetHttpTransport(), new GsonFactory(), reqInit -> { /* no-op */ })
             .setApplicationName("stop-streaming-video")
