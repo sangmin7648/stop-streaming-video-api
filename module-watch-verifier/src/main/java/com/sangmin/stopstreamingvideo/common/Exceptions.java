@@ -10,7 +10,19 @@ public class Exceptions {
         throw new UnsupportedOperationException("class should not be instantiated");
     }
 
-    public static class FilterMaxCapacityReached extends RuntimeException {
+    /**
+     * base exception for watch-verifier module
+     * this exception should not be thrown raw, but rather extended
+     */
+    private static class WatchVerifierException extends RuntimeException {
+
+        private WatchVerifierException(String message) {
+            super(message);
+        }
+
+    }
+
+    public static class FilterMaxCapacityReached extends WatchVerifierException {
 
         public FilterMaxCapacityReached(String message) {
             super(message);
@@ -19,7 +31,7 @@ public class Exceptions {
     }
 
     @Getter
-    public static class VerifierNotFound extends RuntimeException {
+    public static class VerifierNotFound extends WatchVerifierException {
 
         private final UUID watchVerifierId;
         private final UUID userId;
@@ -33,7 +45,7 @@ public class Exceptions {
     }
 
     @Getter
-    public static class VideoNotFound extends RuntimeException {
+    public static class VideoNotFound extends WatchVerifierException {
 
         private final String videoId;
 
@@ -45,7 +57,7 @@ public class Exceptions {
     }
 
     @Getter
-    public static class ProviderVideoAgentNotFound extends RuntimeException {
+    public static class ProviderVideoAgentNotFound extends WatchVerifierException {
 
         private final Provider provider;
 
